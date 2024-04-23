@@ -27,6 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 
 //Aquí estoy disponiendo la posibilidad para utilizar el seteo en los formularios para el usod e los metodos put ó delete
 app.use(methodOverride('_method'));
+app.use(express.json())
 
 app.use('/', indexRouter);
 app.use(moviesRoutes);

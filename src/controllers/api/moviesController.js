@@ -4,15 +4,35 @@ const sequelize = db.sequelize;
 
 
 const moviesController = {
-    'create': (req, res) => {
+    list: (req, res) => {
+        db.Movie.findAll()
+            .then(movies => {
+                const response = {
+                    meta: {
+                        status: 200,
+                        total: movies.length,
+                        url: "/movies",
+                    },
+                    data: movies
+                };
+                res.json(response);
+            })
+            .catch(error => {
+                console.log("error", error);
+            });
+    },
+    create: (req, res) => {
         db.Movie.create(req.body)
             .then(movie => {
-                res.status(200).json({
-                    status:200,
-                    data:movie,
-                    created:"ok"
-                })
+                return res.status(200).json({
+                    data: movie,
+                    status: 200,
+                    created: 'ok'
+                });
             })
+            .catch(error => {
+                console.log("error", error);
+            });
     },
     delete:(req,res)=>{
         db.Movie.destroy({
@@ -23,6 +43,9 @@ const moviesController = {
         .then(response =>{
             return res.json(response)
         })
+        .catch(error => {
+            console.log("error", error);
+        });
     }
 }
     
